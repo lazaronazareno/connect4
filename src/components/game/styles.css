@@ -1,0 +1,31 @@
+.game-container {
+  display: flex;
+  width: 70vw;
+  height: 60vh;
+  background-color: aquamarine;
+}
+
+.game-column {
+  display: flex;
+  flex-direction: column;
+  width: 10vw;
+  border: 0.5px solid;
+}
+
+td {
+  height: 10vh;
+  border: 0.5px solid;
+}
+
+.activetrue {
+  background-color: chartreuse!important;
+  -webkit-animation: slide-in-top 0.3s ease-in both;
+  animation: slide-in-top 0.3s ease-in both;
+}
+
+
+.activefalse {
+  background-color: seagreen!important;
+  -webkit-animation: slide-in-top 0.3s ease-in both;
+  animation: slide-in-top 0.3s ease-in both;
+}

@@ -18,3 +18,13 @@
   border-radius: 100%;
   margin: 1vh 0vh;
 }
+
+@media (max-width: 500px) {
+  .game-column {
+    width: 8vh;
+  }
+
+  .cell {
+    width: 8vh;
+  }
+}

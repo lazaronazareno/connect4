@@ -1,0 +1,20 @@
+.game-column {
+  display: flex;
+  flex-direction: column-reverse;
+  flex-grow: 1;
+  width: 10vh;
+  align-items: center;
+  background-color: #118df0;
+}
+
+.cell {
+  height: 10vh;
+  width: 10vh;
+  border: 0.5px solid #3b4a6b;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  margin: 1vh 0vh;
+}

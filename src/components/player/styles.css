@@ -1,29 +1,19 @@
-.pg-container {
-  background-color: aqua;
-  width: 70vw;
-  height: 60vh;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.pg-container span {
-  background-color: aquamarine;
-  border-radius: 50%;
-  width: 10vw;
+.yellow{
+  background-color: #f0d43a;
+  -webkit-animation: slide-in-top 0.3s ease-in both;
+  animation: slide-in-top 0.3s ease-in both;
   height: 10vh;
+  width: 10vh;
+  border-radius: 100%;
 }
 
-.activetrue {
-  background-color: yellow!important;
+.red {
+  background-color: #f23557;
   -webkit-animation: slide-in-top 0.3s ease-in both;
   animation: slide-in-top 0.3s ease-in both;
-}
-
-
-.activefalse {
-  background-color: red!important;
-  -webkit-animation: slide-in-top 0.3s ease-in both;
-  animation: slide-in-top 0.3s ease-in both;
+  height: 10vh;
+  width: 10vh;
+  border-radius: 100%;
 }
 
 /* ----------------------------------------------

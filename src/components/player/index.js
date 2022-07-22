@@ -1,10 +1,7 @@
 import React from "react";
+import './styles.css'
 
-export default function Player (props) {
-  console.log(props)
-  return (
-    <div>
-      <span>player {props.name} turn</span>
-    </div>
-  )
-}
+const Red = <div className="red"></div>
+const Yellow = <div className="yellow"></div>
+
+export {Red, Yellow}

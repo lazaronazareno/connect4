@@ -1,94 +1,136 @@
 import React, { useState } from "react";
 import './styles.css'
-import Playground from "../playground";
+import GameColumn from "../gameColumn";
+import {Yellow, Red} from '../player/index'
 
-export default function Game (props) {
-  const list = Array.from(Array(7*6).keys())
-  const [turn, setTurn] = useState(false)
+export default function Game () {
+  let initialBoard = {}
+  for (let c = 0; c < 7; c++) {
+    initialBoard[c] = [null, null, null, null, null, null]
+  }
+  const [board, setBoard] = useState(initialBoard)
+  const [currentPlayer, setCurrentPlayer] = useState(Yellow)
   const [winner, setWinner] = useState(null)
-  const [player1, setPlayer1] = useState([])
-  const [player2, setPlayer2] = useState([])
-  const [count, setCount] = useState(0)
-  const columns = [1,2,3,4,5,6,7]
-  const rows = [1,2,3,4,5,6]
+  const [yellowCount, setYellowCount] = useState(0)
+  const [redCount, setRedCount] = useState(0)
+  const [drawCount, setDrawCount] = useState(0)
+  const [isDraw, setIsDraw] = useState(0)
 
-  function handleButton(cIndex, rIndex) {
-    let newRIndex = 5
-    console.log(count)
-    if(newRIndex === 5 && count < 7) {
-      setCount(count + 1)
-    } else if (count >= 7) {
-      newRIndex = 4
-      setCount(count + 1)
-    } else if (count >= 14) {
-      newRIndex = 3
-      setCount(count + 1)
-    } else if (count >= 21) {
-      newRIndex = 2
-      setCount(count + 1)
-    } else if (count >= 28) {
-      newRIndex = 1
-      setCount(count + 1)
-    } else if (count >= 35) {
-      newRIndex = 0
-      setCount(count + 1)
-    } else if (count === 42 ) {
-      return setWinner('Draw')
-    }
-    const newIndex = '' + cIndex + newRIndex
-    const numIndex = Number(newIndex)
-    console.log('column ', cIndex)
-    console.log(numIndex)
-    setTurn(!turn)
-    if(turn) {
-      if(player1.includes(numIndex) || player2.includes(numIndex)) {
-        return
+
+  const checkColumnFour = () => {
+    for (let c = 0; c < 7; c++) {
+      for (let r = 0; r < 6 - 3; r++) {
+        if (board[c][r] != null &&
+          board[c][r] === board[c][r+1] &&
+          board[c][r+1] === board[c][r+2] &&
+          board[c][r+2] === board[c][r+3]) {
+            return true
+          }
       }
-      const newList = player1.concat(numIndex)
-      setPlayer1(newList)
-      console.log(player1)
-      if(!winner) {
-        if(player1.includes(numIndex)){
-          return 'activetrue'
+    }
+  }
+
+  const checkRowFour = () => {
+    for (let c = 0; c < 7 - 3; c++) {
+      for (let r = 0; r < 6; r++) {
+        if (board[c][r] != null &&
+          board[c][r] === board[c+1][r] &&
+          board[c+1][r] === board[c+2][r] &&
+          board[c+2][r] === board[c+3][r]) {
+            return true
+          }
+      }
+    }
+  }
+
+  const checkDiagonalUpFour = () => {
+    for (let c = 0; c < 7; c++) {
+      for (let r = 0; r < 6; r++) {
+        if (board[c][r] !== null &&
+          board[c][r] === board[c+1][r+1] &&
+          board[c+1][r+1] === board[c+2][r+2] &&
+          board[c+2][r+2] === board[c+3][r+3]) {
+            return true
+          }
+      }
+    }
+  }
+
+  const checkDiagonalDownFour = () => {
+    for (let c = 0; c < 7; c++) {
+      for (let r = 5; r >= 3; r--) {
+        if (board[c][r] != null &&
+          board[c][r] === board[c+1][r-1] &&
+          board[c+1][r-1] === board[c+2][r-2] &&
+          board[c+2][r-2] === board[c+3][r-3]) {
+            return true
+          }
+      }
+    }
+  }
+
+  const addToken = (cIndex) => {
+    const column = board[cIndex]
+    const tokenPos = column.indexOf(null)
+    column[tokenPos] = currentPlayer
+
+    if(!winner && tokenPos !== -1) {
+      setBoard({
+        ...board,
+        [cIndex] : column
+      })
+      
+      setIsDraw(isDraw + 1)
+      console.log(isDraw)
+      setCurrentPlayer(currentPlayer === Yellow ? Red : Yellow)
+
+      if (isDraw >= 41 && !winner) {
+        setDrawCount(drawCount + 1)
+        setWinner('Draw')
+      }
+  
+      if (checkColumnFour() || checkRowFour() || checkDiagonalDownFour() || checkDiagonalUpFour()) {
+        setWinner(currentPlayer.props.className)
+        if(currentPlayer.props.className === 'yellow') {
+          setYellowCount(yellowCount + 1)
+          setIsDraw(0)
+        } else if (currentPlayer.props.className === 'red') {
+          setRedCount(redCount + 1)
+          setIsDraw(0)
         }
       }
-    } else {
-      if(player2.includes(numIndex) || player1.includes(numIndex)) {
-        return
-      }
-      const newList = player2.concat(numIndex)
-      setPlayer2(newList)
-      console.log(player2)
-      
     }
   }
 
-  
-  function style (cIndex,rIndex) {
-    const newIndex = '' + cIndex + rIndex
-    const numIndex = Number(newIndex)
-    if(!winner) {
-      if(player1.includes(numIndex)){
-        return 'activetrue'
-      } else if (player2.includes(numIndex)) {
-        return 'activefalse'
-      }
-    }
+  const playAgain = () => {
+    setBoard(initialBoard)
+    setWinner(null)
+    setIsDraw(0)
   }
+
   return (
-    <div>
-      <Playground list={list}/>
-{/*       <table>
-        <tbody className="game-container">
-        {columns.map((col, cIndex) => (
-          <tr className="game-column" key={col}>
-            {rows.map((row, rIndex) => (
-              <td onClick={() => handleButton(cIndex,rIndex)} className={style(cIndex,rIndex)} key={row}>{row}</td>
-            ))}
-          </tr>
-        ))}
-        </tbody>
-      </table> */}
+    <div className="game-container">
+      <span className="gameTitle">Connect 4 Game</span>
+      {!winner &&(
+        <span className="gameSubTitle">{currentPlayer.props.className} turn</span>
+      )}
+      <div className="gameboard">
+        { Object.entries(board).map(([k, col], cIndex) => {
+          return <GameColumn col={col} cIndex={cIndex} key={k} onClick={() => addToken(cIndex)}></GameColumn>
+        })}
+      </div>
+
+      {winner && winner !== 'Draw' && ( <h1>{winner} is the winner!</h1> )}
+
+      {winner === 'Draw' && ( <h1>{winner}</h1> )}
+      <>
+      <div className="gameScore">
+        <span className="gameSubTitle"> Yellow : {yellowCount}</span>
+        <span className="gameSubTitle"> Red : {redCount}</span>
+        <span className="gameSubTitle"> Draw : {drawCount}</span>
+      </div>
+      <button className="gameButton" onClick={() => playAgain()}>Play Again</button>
+      </>
     </div>
   )
 }

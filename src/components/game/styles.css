@@ -1,31 +1,67 @@
 .game-container {
   display: flex;
-  width: 70vw;
-  height: 60vh;
-  background-color: aquamarine;
-}
-
-.game-column {
-  display: flex;
   flex-direction: column;
-  width: 10vw;
-  border: 0.5px solid;
+  align-items: center;
 }
 
-td {
-  height: 10vh;
-  border: 0.5px solid;
+.gameboard {
+  display: flex;
+  width: 70vw;
 }
 
-.activetrue {
-  background-color: chartreuse!important;
-  -webkit-animation: slide-in-top 0.3s ease-in both;
-  animation: slide-in-top 0.3s ease-in both;
+.gameTitle {
+  font-size: xx-large;
+  font-weight: 600;
+  color: #422800;
 }
 
+.gameSubTitle {
+  font-size: x-large;
+  font-weight: 600;
+  color: #422800;
+  text-transform: capitalize;
+}
 
-.activefalse {
-  background-color: seagreen!important;
-  -webkit-animation: slide-in-top 0.3s ease-in both;
-  animation: slide-in-top 0.3s ease-in both;
+.gameScore{
+  position: absolute;
+  bottom: 5vh;
+  left: 2vh;
+}
+
+.gameButton {
+  position: absolute;
+  bottom: 5vh;
+  right: 2vh;
+  background-color: #fbeee0;
+  border: 2px solid #422800;
+  border-radius: 30px;
+  box-shadow: #422800 4px 4px 0 0;
+  color: #422800;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 0 18px;
+  line-height: 50px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.gameButton:hover {
+  background-color: #fff;
+}
+
+.gameButton:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
+@media (min-width: 768px) {
+  .gameButton {
+    min-width: 120px;
+    padding: 0 25px;
+  }
 }

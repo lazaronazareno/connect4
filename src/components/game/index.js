@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import './styles.css'
-import GameColumn from "../gameColumn";
-import {Yellow, Red} from '../player/index'
+import GameColumn from '../gameColumn'
+import { Yellow, Red } from '../player/index'
 
 export default function Game () {
-  let initialBoard = {}
+  const initialBoard = {}
   for (let c = 0; c < 7; c++) {
     initialBoard[c] = [null, null, null, null, null, null]
   }
@@ -16,16 +16,15 @@ export default function Game () {
   const [drawCount, setDrawCount] = useState(0)
   const [isDraw, setIsDraw] = useState(0)
 
-
   const checkColumnFour = () => {
     for (let c = 0; c < 7; c++) {
       for (let r = 0; r < 6 - 3; r++) {
         if (board[c][r] != null &&
-          board[c][r] === board[c][r+1] &&
-          board[c][r+1] === board[c][r+2] &&
-          board[c][r+2] === board[c][r+3]) {
-            return true
-          }
+          board[c][r] === board[c][r + 1] &&
+          board[c][r + 1] === board[c][r + 2] &&
+          board[c][r + 2] === board[c][r + 3]) {
+          return true
+        }
       }
     }
   }
@@ -34,11 +33,11 @@ export default function Game () {
     for (let c = 0; c < 7 - 3; c++) {
       for (let r = 0; r < 6; r++) {
         if (board[c][r] != null &&
-          board[c][r] === board[c+1][r] &&
-          board[c+1][r] === board[c+2][r] &&
-          board[c+2][r] === board[c+3][r]) {
-            return true
-          }
+          board[c][r] === board[c + 1][r] &&
+          board[c + 1][r] === board[c + 2][r] &&
+          board[c + 2][r] === board[c + 3][r]) {
+          return true
+        }
       }
     }
   }
@@ -47,11 +46,11 @@ export default function Game () {
     for (let c = 0; c < 7; c++) {
       for (let r = 0; r < 6; r++) {
         if (board[c][r] !== null &&
-          board[c][r] === board[c+1][r+1] &&
-          board[c+1][r+1] === board[c+2][r+2] &&
-          board[c+2][r+2] === board[c+3][r+3]) {
-            return true
-          }
+          board[c][r] === board[c + 1][r + 1] &&
+          board[c + 1][r + 1] === board[c + 2][r + 2] &&
+          board[c + 2][r + 2] === board[c + 3][r + 3]) {
+          return true
+        }
       }
     }
   }
@@ -60,11 +59,11 @@ export default function Game () {
     for (let c = 0; c < 7; c++) {
       for (let r = 5; r >= 3; r--) {
         if (board[c][r] != null &&
-          board[c][r] === board[c+1][r-1] &&
-          board[c+1][r-1] === board[c+2][r-2] &&
-          board[c+2][r-2] === board[c+3][r-3]) {
-            return true
-          }
+          board[c][r] === board[c + 1][r - 1] &&
+          board[c + 1][r - 1] === board[c + 2][r - 2] &&
+          board[c + 2][r - 2] === board[c + 3][r - 3]) {
+          return true
+        }
       }
     }
   }
@@ -74,12 +73,12 @@ export default function Game () {
     const tokenPos = column.indexOf(null)
     column[tokenPos] = currentPlayer
 
-    if(!winner && tokenPos !== -1) {
+    if (!winner && tokenPos !== -1) {
       setBoard({
         ...board,
-        [cIndex] : column
+        [cIndex]: column
       })
-      
+
       setIsDraw(isDraw + 1)
       console.log(isDraw)
       setCurrentPlayer(currentPlayer === Yellow ? Red : Yellow)
@@ -88,10 +87,10 @@ export default function Game () {
         setDrawCount(drawCount + 1)
         setWinner('Draw')
       }
-  
+
       if (checkColumnFour() || checkRowFour() || checkDiagonalDownFour() || checkDiagonalUpFour()) {
         setWinner(currentPlayer.props.className)
-        if(currentPlayer.props.className === 'yellow') {
+        if (currentPlayer.props.className === 'yellow') {
           setYellowCount(yellowCount + 1)
           setIsDraw(0)
         } else if (currentPlayer.props.className === 'red') {
@@ -109,27 +108,27 @@ export default function Game () {
   }
 
   return (
-    <div className="game-container">
-      <span className="gameTitle">Connect 4 Game</span>
-      {!winner &&(
-        <span className="gameSubTitle">{currentPlayer.props.className} turn</span>
+    <div className='game-container'>
+      <span className='gameTitle'>Connect 4 Game</span>
+      {!winner && (
+        <span className='gameSubTitle'>{currentPlayer.props.className} turn</span>
       )}
-      <div className="gameboard">
-        { Object.entries(board).map(([k, col], cIndex) => {
-          return <GameColumn col={col} cIndex={cIndex} key={k} onClick={() => addToken(cIndex)}></GameColumn>
+      <div className='gameboard'>
+        {Object.entries(board).map(([k, col], cIndex) => {
+          return <GameColumn col={col} cIndex={cIndex} key={k} onClick={() => addToken(cIndex)} />
         })}
       </div>
 
-      {winner && winner !== 'Draw' && ( <h1>{winner} is the winner!</h1> )}
+      {winner && winner !== 'Draw' && (<h1>{winner} is the winner!</h1>)}
 
-      {winner === 'Draw' && ( <h1>{winner}</h1> )}
+      {winner === 'Draw' && (<h1>{winner}</h1>)}
       <>
-      <div className="gameScore">
-        <span className="gameSubTitle"> Yellow : {yellowCount}</span>
-        <span className="gameSubTitle"> Red : {redCount}</span>
-        <span className="gameSubTitle"> Draw : {drawCount}</span>
-      </div>
-      <button className="gameButton" onClick={() => playAgain()}>Play Again</button>
+        <div className='gameScore'>
+          <span className='gameSubTitle'> Yellow : {yellowCount}</span>
+          <span className='gameSubTitle'> Red : {redCount}</span>
+          <span className='gameSubTitle'> Draw : {drawCount}</span>
+        </div>
+        <button className='gameButton' onClick={() => playAgain()}>Play Again</button>
       </>
     </div>
   )
